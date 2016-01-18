@@ -1,0 +1,38 @@
+.lines {
+    position: fixed;
+    z-index: 2147483647;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.line {
+    background: #29d;
+    width: 0%;
+    height: 1px;
+    border-radius: 1px;
+    float: left;
+}
+
+.circle {
+    width: 5px;
+    height: 5px;
+    background: #29d;
+    border-radius: 50px;
+    float: right;
+    margin-top: -2px;
+    box-shadow: 0 0 5px #29d;
+    animation: pulse 2s ease-out 0s infinite;
+}
+
+@-webkit-keyframes pulse {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}

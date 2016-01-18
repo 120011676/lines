@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <link rel="stylesheet" href="css/lines.css">
+    <link rel="stylesheet" href="css/lines.youtube.css">
+    <script src="js/lines.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="http://libs.useso.com/js/jquery/1.9.1/jquery.min.js"></script>
+    <script src="js/lines.jquery.ajax.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+    function ajax_post() {
+        $.post("https://www.baidu.com", {}, function(data) {
+            console.log(data);
+        });
+    }
+
+    function ajax_jsonp() {
+        $.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?&tags=everest&tagmode=any&format=json', function(data) {
+            console.log(data);
+        });
+    }
+    </script>
+</head>
+
+<body>
+    <button type="" onclick="Lines.start()">start</button>
+    <button type="" onclick="Lines.set(50)">set</button>
+    <button type="" onclick="Lines.end()">end</button>
+    <button type="" onclick="ajax_post()">ajax</button>
+    <button type="" onclick="ajax_jsonp()">jsonp</button>
+</body>
+
+</html>
