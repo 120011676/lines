@@ -1,0 +1,12 @@
+.line {
+    background: #b91f1f;
+}
+
+.circle {
+    width: 100px;
+    height: 2px;
+    float: right;
+    box-shadow: #b91f1f 1px 0 6px 1px;
+    border-radius: 100%;
+    clip: rect(-6px, 33px, 66px, 100px);
+}
