@@ -5,6 +5,7 @@ var Lines = {};
         lines: "lines",
         line: "line",
         step: 0.1,
+        run_step: 1,
         context: '<div id="line" class="line"><div class="circle"></div></div>',
     }
 
@@ -13,44 +14,68 @@ var Lines = {};
 
     Lines.start = function() {
         if (Lines.isLines()) {
-            Lines.set(0);
-            bfb = 0;
+            Lines.stop();
+            Lines.set(1);
         } else {
             document.body.innerHTML = '<div id="' + Lines.config.lines + '" class="lines">' + Lines.config.context + '</div>' + document.body.innerHTML;
-            Lines.set(0);
+            Lines.set(1);
+        }
+        return Lines;
+    };
+
+
+    Lines.run = function(v, step) {
+        if (Lines.isLines()) {
+            if (v) {
+                Lines.stop();
+            }
+            bfb = parseFloat(document.getElementById(Lines.config.line).style.width);
             interval = setInterval(function() {
+                bfb += step ? step : v ? Lines.config.run_step : Lines.config.step;
                 Lines.set(bfb);
-                bfb += Lines.config.step;
+                if (v && v <= bfb) {
+                    Lines.stop();
+                }
             }, 1);
         }
         return Lines;
     };
 
+    Lines.stop = function() {
+        clearInterval(interval);
+        return Lines;
+    };
+
     Lines.set = function(v) {
         if (Lines.isLines()) {
-            bfb = v;
-            if (v < 0) {
-                v = 0;
-            }
-            if (v > 100) {
-                v = 100;
+            document.getElementById(Lines.config.line).style.width = (v = v < 0 ? 0 : v > 100 ? 100 : v) + '%';
+        }
+        return Lines;
+    };
 
-            }
-            var l = document.getElementById(Lines.config.line);
-            l.style.width = v + '%';
+    Lines.done = function(v) {
+        if (Lines.isLines()) {
+            Lines.stop();
+            v = v ? v : 100;
+            Lines.run(v);
+            var s = setInterval(function() {
+                var w = parseFloat(document.getElementById(Lines.config.line).style.width);
+                if (v <= w) {
+                    clearInterval(s);
+                    setTimeout(function() {
+                        Lines.end();
+                    }, 150);
+                }
+            }, 1);
         }
         return Lines;
     };
 
     Lines.end = function() {
         if (Lines.isLines()) {
-            clearInterval(interval);
-            var w = document.getElementById(Lines.config.line).style.width;
-            Lines.set(100);
-            setTimeout(function() {
-                var e = document.getElementById(Lines.config.lines);
-                e && e.parentNode && e.parentNode.removeChild(e);
-            }, (100 - parseFloat(w)) * 6);
+            Lines.stop();
+            var e = document.getElementById(Lines.config.lines);
+            e && e.parentNode && e.parentNode.removeChild(e);
         }
         return Lines;
     };
