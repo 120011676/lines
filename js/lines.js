@@ -14,12 +14,10 @@ var Lines = {};
 
     Lines.start = function() {
         if (Lines.isLines()) {
-            Lines.stop();
-            Lines.set(1);
-        } else {
-            document.body.innerHTML = '<div id="' + Lines.config.lines + '" class="lines">' + Lines.config.context + '</div>' + document.body.innerHTML;
-            Lines.set(1);
+            Lines.end();
         }
+        document.body.innerHTML = '<div id="' + Lines.config.lines + '" class="lines">' + Lines.config.context + '</div>' + document.body.innerHTML;
+        Lines.set(1);
         return Lines;
     };
 
@@ -30,13 +28,16 @@ var Lines = {};
                 Lines.stop();
             }
             bfb = parseFloat(document.getElementById(Lines.config.line).style.width);
-            interval = setInterval(function() {
-                bfb += step ? step : v ? Lines.config.run_step : Lines.config.step;
-                Lines.set(bfb);
-                if (v && v <= bfb) {
-                    Lines.stop();
-                }
-            }, 1);
+            if (!v || (v && v > bfb)) {
+                interval = setInterval(function() {
+                    bfb += step ? step : v ? Lines.config.run_step : Lines.config.step;
+                    Lines.set(bfb);
+                    if (v && v <= bfb) {
+                        Lines.stop();
+                    }
+
+                }, 1);
+            }
         }
         return Lines;
     };
